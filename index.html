@@ -22,8 +22,8 @@
         <option>Medium</option>
         <option>Low</option>
       </select>
-      <button>Submit</button>
-      <button>Clear</button>
+      <button type="submit">Submit</button>
+      <button type="reset">Clear</button>
     </form>
 
     <section id="task-area">
@@ -33,7 +33,14 @@
         <h3 class="task-priority">Priority</h3>
       </div>
       
-      <div id="task-display"></div>
+      <div id="task-display">
+        <div class="task">
+          <input type="checkbox" class="task-completed">
+          <p class="task-name">Make Dinner</p>
+          <p class="task-priority">Priority</p>
+          <img class='trash-can'src='https://www.freeiconspng.com/thumbs/trash-can-icon/trash-can-icon-26.png'alt='trash'/>
+        </div>
+      </div>
     </section>
 
     <script src="./index.js"></script>
