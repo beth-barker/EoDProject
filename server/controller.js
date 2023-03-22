@@ -10,5 +10,13 @@ let tasks = [task1, task2, task3]
 module.exports = {
     getTasks: (req, res) => {
         res.status(200).send(tasks)
+    },
+
+    addTask: (req, res) => {
+        const {name, priority} = req.body
+        let status = false
+        let newTask = {name, priority, status}
+        tasks.push(newTask)
+        res.sendStatus(200)
     }
 }
