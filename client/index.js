@@ -1,3 +1,4 @@
+
 const newTaskForm = document.querySelector('form')
 
 const buildTasks = (tasks) => {
@@ -8,7 +9,17 @@ const buildTasks = (tasks) => {
     let newTask = document.createElement('div')
     newTask.classList.add('task')
 
-    newTask.innerHTML = `<input type="checkbox" class="task-completed"/>
+    let checkbox = document.createElement('input')
+    checkbox.classList.add('task-completed')
+    checkbox.type = 'checkbox'
+
+    if(task.status){
+      checkbox.setAttribute('checked', true)
+    }
+
+    newTask.appendChild(checkbox)
+
+    newTask.innerHTML += `
     <p class="task-name">${task.name}</p>
     <p class="task-priority">${task.priority}</p>
     <img
@@ -27,23 +38,22 @@ const addTask = (event) => {
   const name = document.querySelector("#new-task-name")
   const priority = document.querySelector("#new-task-priority")
 
-  const newTask = {name: name.value, priority: priority.value, status: false}
+  const newTask = {name: name.value, priority: priority.value}
 
-  tasks.push(newTask)
-  buildTasks(tasks)
+  axios.post('http://localhost:6789/api/tasks', newTask)
+    .then(res => {
+      getTasks()
+    })
 }
 
 newTaskForm.addEventListener('submit', addTask)
 
 const getTasks = () => {
-  axios.get(`http://localhost:6789/api/tasks`)
-  .then(res => {
-    console.log(res.data)
-    buildTasks(res.data)
-  })
-  .catch (err => {
-    console.log(err)
-  })
+  axios.get('http://localhost:6789/api/tasks')
+    .then(res => {
+      console.log(res.data)
+      buildTasks(res.data)
+    })
 }
 
 getTasks()
