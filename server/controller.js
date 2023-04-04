@@ -36,6 +36,26 @@ module.exports = {
     `)
       .then(() => res.sendStatus(200))
       .catch(() => res.sendStatus(500))
-    
+  },
+
+  updateTask: (req, res) => {
+    let {status} = req.body
+    let id = +req.body.id
+
+    sequelize.query(`
+      UPDATE tasks
+      SET status = ${status}
+      WHERE task_id = ${id};
+    `).then(() => res.status(200).send(`Task status updated!`))
+    .catch(() => res.sendStatus(500))
+  },
+
+  deleteTask: (req, res) => {
+    const id = +req.params.id
+
+    sequelize.query(`
+      DELETE FROM tasks
+      WHERE task_id = ${id};
+    `).then(() => res.status(200).send(`Task deleted!`))
   }
 }
