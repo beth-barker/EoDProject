@@ -1,6 +1,15 @@
 
 const newTaskForm = document.querySelector('form')
 
+const deleteTask = (id) => {
+  axios.delete(`http://localhost:6789/api/tasks/${id}`)
+    .then(res => {
+      console.log(res)
+      getTasks()
+    })
+}
+
+
 const buildTasks = (tasks) => {
   let tasksDisplay = document.getElementById('task-display')
   tasksDisplay.innerHTML = ''
@@ -27,6 +36,14 @@ const buildTasks = (tasks) => {
       src='https://www.freeiconspng.com/thumbs/trash-can-icon/trash-can-icon-26.png'
       alt='trash'
     />`
+
+    const trashCan = document.createElement('img')
+    trashCan.classList.add('trash-can')
+    trashCan.setAttribute('src', 'https://www.freeiconspng.com/thumbs/trash-can-icon/trash-can-icon-26.png')
+    trashCan.setAttribute('alt', 'trash')
+
+    newTask.appendChild(trashCan)
+    trashCan.addEventListener('click', () => deleteTask(task.task_id))
 
     tasksDisplay.appendChild(newTask)
   })
@@ -57,3 +74,4 @@ const getTasks = () => {
 }
 
 getTasks()
+
