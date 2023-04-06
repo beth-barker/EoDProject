@@ -1,6 +1,16 @@
 
 const newTaskForm = document.querySelector('form')
 
+const updateStatus = (id, status) => {
+  let body = {id, status}
+
+  axios.put(`http://localhost:6789/api/tasks/`, body)
+  .then(res => {
+    console.log(res.data)
+    getTasks()
+  })
+}
+
 const deleteTask = (id) => {
   axios.delete(`http://localhost:6789/api/tasks/${id}`)
     .then(res => {
@@ -26,6 +36,8 @@ const buildTasks = (tasks) => {
       checkbox.setAttribute('checked', true)
     }
 
+    
+
     newTask.appendChild(checkbox)
 
     newTask.innerHTML += `
@@ -42,10 +54,15 @@ const buildTasks = (tasks) => {
     trashCan.setAttribute('src', 'https://www.freeiconspng.com/thumbs/trash-can-icon/trash-can-icon-26.png')
     trashCan.setAttribute('alt', 'trash')
 
-    newTask.appendChild(trashCan)
     trashCan.addEventListener('click', () => deleteTask(task.task_id))
+    newTask.appendChild(trashCan)
 
     tasksDisplay.appendChild(newTask)
+
+    const allBoxes = document.getElementsByClassName('task-completed')
+    const lastBox = allBoxes[allBoxes.length-1]
+
+    lastBox.addEventListener('change', () => updateStatus(task.task_id, !task.status))
   })
 }
 
